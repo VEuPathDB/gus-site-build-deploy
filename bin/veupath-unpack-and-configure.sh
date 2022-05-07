@@ -39,7 +39,7 @@ echo "Generated values: $domain $gzFilename $tarFilename"
 
 cd $siteDir
 gunzip $gzFilename
-tar xvf $tarFilename
+tar xf $tarFilename
 rm $tarFilename
 
 cp $siteConfigFile $siteDir/etc/conifer_site_vars.yml
@@ -50,4 +50,12 @@ export PATH=$GUS_HOME/bin:$PATH
 
 conifer configure $domain
 
-#TODO: fill templates in cgi-bin
+# fill templates macros in cgi-bin perl scripts
+# FIXME: there may be a more elegant solution to this using apache env vars
+cd $siteDir/cgi-bin
+for file in `ls`; do
+  if [ -f $file ]; then
+    sed "s|\@cgilibTargetDir\@|$siteDir/cgi-lib|g" $file > ${file}.mod && mv ${file}.mod $file
+    sed "s|\@targetDir\@|$GUS_HOME|g" $file > ${file}.mod && mv ${file}.mod $file
+  fi
+done
