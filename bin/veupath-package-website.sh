@@ -54,6 +54,9 @@ export GUS_HOME=$workingDir/$buildId/gus_home
 export PROJECT_HOME=$workingDir/project_home
 export PATH=$GUS_HOME/bin:$PROJECT_HOME/install/bin:$PATH
 
+# use a private maven repo to ensure build independence
+export M2_REPO=$PROJECT_HOME/.mavenRepo
+
 # create and visit project home
 mkdir -p $PROJECT_HOME
 cd $PROJECT_HOME
@@ -62,5 +65,7 @@ cd $PROJECT_HOME
 tsrc init git@github.com:VEuPathDB/tsrc.git --group $group \
   && tsrc foreach -- git checkout $branch \
   && bldw $rootProject $webappPropFile \
+  && cd $siteDir \
+  && tar cf ../$buildId.tar * \
   && cd .. \
-  && tar cvfz $buildId.tar $buildId/*
+  && echo "Packaged site written to $(realpath $buildId.tar)"
