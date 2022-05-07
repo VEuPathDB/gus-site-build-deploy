@@ -1,4 +1,13 @@
 #!/bin/bash
+#########################################################################
+###
+### This script will check out a source tree for a website cohort,
+### build the site, and package/compress it into a tar.gz artifact.
+###
+### The resulting artifact can be unpacked in a site directory and
+### then configured and deployed without the need for a project_home.
+###
+#########################################################################
 
 # check args
 if [ "$#" != "4" ]; then
