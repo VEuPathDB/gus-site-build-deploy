@@ -17,11 +17,15 @@ if [ "$#" != "4" ]; then
   exit 1
 fi
 
+# make sure all input locations exist
+if ! [ -e $1 ]; then >&2 echo "ERROR: $1 does not exist"; exit 2; fi
+if ! [ -e $4 ]; then >&2 echo "ERROR: $4 does not exist"; exit 2; fi
+
 # name args
-workingDir=$(realpath $1)
+workingDirArg=$1
 groupParam=$2
 branch=$3
-webappPropFile=$(realpath $4)
+webappPropArg=$4
 
 # Define the supported groups and assign a root build project to each
 allowedGroups=( "apiSite:ApiCommonPresenters"
@@ -29,7 +33,7 @@ allowedGroups=( "apiSite:ApiCommonPresenters"
                 "clinEpiSite:ClinEpiPresenters"
                 "microbiomeSite:MicrobiomePresenters" )
 
-# search projects for one representing a single cohort; skip conifer if >1 or none
+# search supported groups for the one submitted
 for allowedGroup in ${allowedGroups[@]}; do
   map=( $(echo $allowedGroup | sed 's/:/ /g') )
   if [ "$groupParam" == "${map[0]}" ]; then
@@ -40,16 +44,18 @@ done
 
 # make sure tsrc group is valid
 if [ "$group" == "" ]; then
-  >&2 echo "WARN: $groupParam is not supported"
+  >&2 echo "ERROR: $groupParam is not supported"
   exit 1
 fi
 
 # local vars
+workingDir=$(realpath $workingDirArg)
+webappPropFile=$(realpath $webappPropArg)
 timestamp=$(date --utc '+%s')
 buildId="${group}_${branch}_${timestamp}"
 siteDir=$workingDir/$buildId
 
-# env vars for build
+# env vars for the build
 export GUS_HOME=$workingDir/$buildId/gus_home
 export PROJECT_HOME=$workingDir/project_home
 export PATH=$GUS_HOME/bin:$PROJECT_HOME/install/bin:$PATH
@@ -68,11 +74,16 @@ echo "  PROJECT_HOME = $PROJECT_HOME"
 echo "  webappPropFile = $webappPropFile"
 
 # conditionally clone repos, build, and package
+echo "Cloning projects in group $group"
 tsrc init git@github.com:VEuPathDB/tsrc.git --group $group \
+  && echo "Switching to branch $branch" \
   && tsrc foreach -- git checkout $branch \
+  && echo "Building website with root project $rootProject using prop file $webappPropFile" \
   && bldw $rootProject $webappPropFile \
   && cd $siteDir \
+  && echo "Packing built site into $buildId.tar" \
   && tar cf ../$buildId.tar * \
   && cd .. \
+  && echo "Gzipping tar file" \
   && gzip $buildId.tar \
-  && echo "Packaged site written to $(realpath $buildId.tar)"
+  && echo "Done. Packaged site written to $(realpath $buildId.tar)"
