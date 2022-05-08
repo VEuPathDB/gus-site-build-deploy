@@ -50,7 +50,12 @@ export PATH=$GUS_HOME/bin:$PATH
 
 conifer configure $domain
 
-# fill templates macros in cgi-bin perl scripts
+##########################################################################
+###  Hacks around normal procedures; can maybe be avoided in the future
+##########################################################################
+
+# 1. fill templates macros in cgi-bin perl scripts
+
 # FIXME: there may be a more elegant solution to this using apache env vars
 cd $siteDir/cgi-bin
 for file in `ls`; do
@@ -59,3 +64,9 @@ for file in `ls`; do
     sed "s|\@targetDir\@|$GUS_HOME|g" $file > ${file}.mod && mv ${file}.mod $file
   fi
 done
+
+# 2. open certain jbrowse track directories for writing
+
+# FIXME: the webapp writes cache files here; should probably find a better location outside gus_home
+find $GUS_HOME/lib/jbrowse/auto_generated/* | xargs chmod 777
+find $GUS_HOME/lib/jbrowse/auto_generated/*/aa | xargs chmod 777

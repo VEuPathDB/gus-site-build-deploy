@@ -61,6 +61,12 @@ export M2_REPO=$PROJECT_HOME/.mavenRepo
 mkdir -p $PROJECT_HOME
 cd $PROJECT_HOME
 
+# announce
+echo "Will build with the following config:"
+echo "  GUS_HOME = $GUS_HOME"
+echo "  PROJECT_HOME = $PROJECT_HOME"
+echo "  webappPropFile = $webappPropFile"
+
 # conditionally clone repos, build, and package
 tsrc init git@github.com:VEuPathDB/tsrc.git --group $group \
   && tsrc foreach -- git checkout $branch \
@@ -68,4 +74,5 @@ tsrc init git@github.com:VEuPathDB/tsrc.git --group $group \
   && cd $siteDir \
   && tar cf ../$buildId.tar * \
   && cd .. \
+  && gzip $buildId.tar \
   && echo "Packaged site written to $(realpath $buildId.tar)"
