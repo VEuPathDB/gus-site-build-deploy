@@ -5,7 +5,8 @@ This repo houses a set of scripts to ease the packaging and deployment of GUS-ba
 ## Example usage for a development site might be:
 
 NOTE: this is still a work in progress; the 'build-cleanup' branch is being used to convert
-projects to the new build API (parent pom and build.xml)
+projects to the new build API (parent pom and build.xml).  Also only apiSite projects are
+currently converted.  Other cohorts will follow in the coming weeks.
 
 ### Step 1: Choose a cohort and branch and build the source code with a dev build config
 ```
