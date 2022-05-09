@@ -79,7 +79,7 @@ tsrc init git@github.com:VEuPathDB/tsrc.git --group $group \
   && echo "Switching to branch $branch" \
   && tsrc foreach -- git checkout $branch \
   && echo "Building website with root project $rootProject using prop file $webappPropFile" \
-  && bldw $rootProject $webappPropFile \
+  && bldw $rootProject $webappPropFile -skipCgiBinLocationMacros \
   && cd $siteDir \
   && echo "Packing built site into $buildId.tar" \
   && tar cf ../$buildId.tar * \
