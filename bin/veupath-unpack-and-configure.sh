@@ -74,8 +74,10 @@ done
 # 2. open certain jbrowse track directories for writing
 
 # FIXME: the webapp writes cache files here; should probably find a better location outside gus_home
-echo "Opening directories to store JBrowse caches..."
-find $GUS_HOME/lib/jbrowse/auto_generated/* | xargs chmod 777
-find $GUS_HOME/lib/jbrowse/auto_generated/*/aa | xargs chmod 777
+if [ -e $GUS_HOME/lib/jbrowse/auto_generated ]; then
+  echo "Opening directories to store JBrowse caches..."
+  find $GUS_HOME/lib/jbrowse/auto_generated/* | xargs chmod 777
+  find $GUS_HOME/lib/jbrowse/auto_generated/*/aa | xargs chmod 777
+fi
 
 echo "Done."
