@@ -29,7 +29,7 @@ webappPropArg=$4
 
 # Define the supported groups and assign a root build project to each
 allowedGroups=( "apiSite:ApiCommonPresenters"
-                "orthoSiteOrthoMCLWebsite"
+                "orthoSite:OrthoMCLWebsite"
                 "clinEpiSite:ClinEpiPresenters"
                 "microbiomeSite:MicrobiomePresenters" )
 
