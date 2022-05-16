@@ -1,5 +1,0 @@
-# Property file for webinstall of WDK site
-
-rProgram=/usr/bin/R
-webAssets.optimize=true
-webAssets.legacy=true
