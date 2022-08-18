@@ -26,12 +26,13 @@ if ! [ -e $3 ]; then >&2 echo "ERROR: $3 does not exist"; exit 2; fi
 # name args
 targzFile=$1
 siteDir=$2
-siteConfigFile=$3
+siteConfigFileArg=$3
 
 # local vars
 gzFilename=$(basename $targzFile)
 tarFilename=$(echo $gzFilename | sed 's/\.gz//' -)
 domain=$(basename $siteDir)
+siteConfigFile=$(realpath $siteConfigFileArg)
 
 echo "Cleaning out $siteDir"
 rm -rf $siteDir/*

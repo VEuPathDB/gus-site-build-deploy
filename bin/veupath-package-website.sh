@@ -25,7 +25,7 @@ if ! [ -e $2 ]; then >&2 echo "ERROR: $2 does not exist"; exit 2; fi
 if ! [ -e $4 ]; then >&2 echo "ERROR: $4 does not exist"; exit 2; fi
 
 # name args
-projectHome=$1
+projectHomeArg=$1
 workingDirArg=$2
 rootProject=$3
 webappPropArg=$4
@@ -47,6 +47,7 @@ if [ "$validRootProject" == "" ]; then
 fi
 
 # local vars
+projectHome=$(realpath $projectHomeArg)
 workingDir=$(realpath $workingDirArg)
 webappPropFile=$(realpath $webappPropArg)
 timestamp=$(date --utc '+%s')
