@@ -5,6 +5,9 @@
 ### into a designated site directory and configure it using the basename
 ### of the target directory (i.e. domain name of the site).
 ###
+### Note: it will completely clear out the target directory, so make
+###       sure nothing important is in there!
+###
 #########################################################################
 
 # check args
@@ -29,6 +32,9 @@ siteConfigFile=$3
 gzFilename=$(basename $targzFile)
 tarFilename=$(echo $gzFilename | sed 's/\.gz//' -)
 domain=$(basename $siteDir)
+
+echo "Cleaning out $siteDir"
+rm -rf $siteDir/*
 
 echo "Copying $targzFile to $siteDir"
 cp $targzFile $siteDir
