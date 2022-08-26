@@ -1,14 +1,16 @@
 # GUS Website Build and Deployment Scripts
 
-This repo houses a set of scripts to ease the packaging and deployment of GUS-based websites.  The goal is the separate the build/packaging from the deployment step.  Doing so will allow us to, e.g. build a single time for deployment to all component integrate sites.
+This repo houses a set of scripts to ease the packaging and deployment of GUS-based websites.  The goal is to separate the build/packaging step from the deployment step.  Doing so will allow us to, e.g. build a single ApiCommon cohort artifact for deployment to all component integrate sites and possibly use the same artifact for deployment to QA sites or even production.
 
-## Example usage for a development site might be:
+## Step 1: Building Website Packages
 
-NOTE: this is still a work in progress; the 'build-cleanup' branch is being used to convert
-projects to the new build API (parent pom and build.xml).  Also only apiSite projects are
-currently converted.  Other cohorts will follow in the coming weeks.
+To build, there are two models: "managed" SCM and "manual" SCM.
 
-### Step 1: Choose a cohort and branch and build the source code with a dev build config
+### Option A: Managed SCM
+
+#### Choose a cohort and branch and build the source code with a dev build config
+
+Note all proj
 ```
 > pwd
 /home/rdoherty
