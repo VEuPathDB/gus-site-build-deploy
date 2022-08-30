@@ -2,9 +2,43 @@
 
 This repo houses a set of scripts to ease the packaging and deployment of GUS-based websites.  The goal is to separate the build/packaging step from the deployment step.  Doing so will allow us to, e.g. build a single ApiCommon cohort artifact for deployment to all component integrate sites and possibly use the same artifact for deployment to QA sites or even production.
 
+Start by cloning this repo so you can directly call the scripts and use the config file inside.
+
 ## Step 1: Building Website Packages
 
-To build, there are two models: "managed" SCM and "manual" SCM.
+First, check out the projects associated with a website cohort (using the `websiteRelease` tsrc group is supported i.e. you can have more than one cohort checkout in the same directory).  Legacy convention would be to name the projects directory `project_home`.
+
+Decide which cohort you want to build.  In development, you may want to build multiple cohorts from the same source code.  For that purpose, the following directory structure could be useful:
+
+```
+.
+├── build/
+│   ├── api/
+│   ├── clinepi/
+│   ├── mbio/
+│   └── ortho/
+├── gus-site-build-deploy/ (local checkout of this repo)
+│   ├── bin/
+│   │   ├── veupath-clone-and-package.sh
+│   │   ├── veupath-package-website.sh
+│   │   └── veupath-unpack-and-configure.sh
+│   ├── config/
+│   │   └── webapp.prop
+│   ├── LICENSE
+│   └── README.md
+├── project_home/
+│       └── <github_projects>
+├── site_vars/
+│   ├── conifer_site_vars.yml.clinepi
+│   ├── conifer_site_vars.yml.microbiome
+│   ├── conifer_site_vars.yml.ortho
+│   └── conifer_site_vars.yml.plasmo
+│   └── conifer_site_vars.yml.crypto
+│   └── <other_conifer_site_vars>
+```
+
+The build directory will contain packages of websites for the four cohorts (apicommon, clinepi, microbiome, orthomcl).
+
 
 ### Option A: Managed SCM
 
