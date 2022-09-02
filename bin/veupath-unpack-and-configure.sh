@@ -13,7 +13,10 @@
 # check args
 if [ "$#" != "3" ]; then
   >&2 echo
-  >&2 echo "USAGE: $(basename $0) <targz_file> <abs_site_dir> <conifer_site_vars.yml>"
+  >&2 echo "USAGE: $(basename $0) <targz_file> <absolute_site_dir> <conifer_site_vars.yml>"
+  >&2 echo
+  >&2 echo "   Notes: 1. absolute_site_dir will be emptied at the beginning of this script"
+  >&2 echo "          2. conifer_site_vars.yml need not be named so; it will be correctly renamed during deployment"
   >&2 echo
   exit 1
 fi
