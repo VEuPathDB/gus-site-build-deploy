@@ -10,9 +10,9 @@
 #########################################################################
 
 # check args
-if [ "$#" != "4" ]; then
+if [ "$#" != "4" ] && [ "$#" != "5" ]; then
   >&2 echo
-  >&2 echo "USAGE: $(basename $0) <project_home> <working_dir> <rootProject> <webappPropFile>"
+  >&2 echo "USAGE: $(basename $0) <project_home> <working_dir> <rootProject> <webappPropFile> [<outputName>]"
   >&2 echo
   >&2 echo "   Allowed rootProject values: ApiCommonPresenters, OrthoMCLWebsite, ClinEpiPresenters, MicrobiomePresenters"
   >&2 echo
@@ -29,6 +29,7 @@ projectHomeArg=$1
 workingDirArg=$2
 rootProject=$3
 webappPropArg=$4
+outputName=$5
 
 # Define the supported root projects
 allowedRootProjects=( ApiCommonPresenters OrthoMCLWebsite ClinEpiPresenters MicrobiomePresenters )
@@ -50,8 +51,15 @@ fi
 projectHome=$(realpath $projectHomeArg)
 workingDir=$(realpath $workingDirArg)
 webappPropFile=$(realpath $webappPropArg)
-timestamp=$(date --utc '+%s')
-buildId="${rootProject}_${timestamp}"
+
+
+if [ "$outputName" == "" ]; then
+  buildId="$outputName"
+else
+  timestamp=$(date --utc '+%s')
+  buildId="${rootProject}_${timestamp}"
+fi
+
 siteDir=$workingDir/$buildId
 
 # env vars for the build
