@@ -52,12 +52,12 @@ projectHome=$(realpath $projectHomeArg)
 workingDir=$(realpath $workingDirArg)
 webappPropFile=$(realpath $webappPropArg)
 
-
+# set build ID
 if [ "$outputName" == "" ]; then
-  buildId="$outputName"
-else
   timestamp=$(date --utc '+%s')
   buildId="${rootProject}_${timestamp}"
+else
+  buildId="$outputName"
 fi
 
 siteDir=$workingDir/$buildId
@@ -78,6 +78,7 @@ echo "Will build with the following config:"
 echo "  GUS_HOME = $GUS_HOME"
 echo "  PROJECT_HOME = $PROJECT_HOME"
 echo "  webappPropFile = $webappPropFile"
+echo "  buildId = $buildId"
 
 # conditionally build and package
 echo "Building website with root project $rootProject using prop file $webappPropFile" \
