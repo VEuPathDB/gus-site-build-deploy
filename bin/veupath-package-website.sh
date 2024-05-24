@@ -89,4 +89,4 @@ echo "Building website with root project $rootProject using prop file $webappPro
   && cd .. \
   && echo "Gzipping tar file" \
   && gzip $buildId.tar \
-  && echo "Done. Packaged site written to $(realpath $buildId.tar)"
+  && echo "Done. Packaged site written to $(realpath $buildId.tar.gz)"
