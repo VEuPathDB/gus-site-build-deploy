@@ -80,9 +80,21 @@ echo "  PROJECT_HOME = $PROJECT_HOME"
 echo "  webappPropFile = $webappPropFile"
 echo "  buildId = $buildId"
 
+# post-build call to add versions file to eventual artifact
+dumpProjectVersions() {
+  projectHome=$1
+  siteDir=$2
+  outFile=$2/html/built-project-commits.txt
+  rm $outFile
+  for repo in `ls $projectHome`; do
+    printf "\n\n########## $repo ##########\n\n$(cd $repo; git log -1)" >> $outFile
+  done
+}
+
 # conditionally build and package
 echo "Building website with root project $rootProject using prop file $webappPropFile" \
   && bldw $rootProject $webappPropFile -skipBinFileLocationMacros \
+  && dumpProjectVersions $PROJECT_HOME $siteDir
   && cd $siteDir \
   && echo "Packing built site into $buildId.tar" \
   && tar cf ../$buildId.tar * \
