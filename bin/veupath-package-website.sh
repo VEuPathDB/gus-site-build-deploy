@@ -85,9 +85,12 @@ dumpProjectVersions() {
   projectHome=$1
   siteDir=$2
   outFile=$2/html/built-project-commits.txt
-  rm $outFile
+  rm -f $outFile
   for repo in `ls $projectHome`; do
-    printf "\n\n########## $repo ##########\n\n$(cd $repo; git log -1)" >> $outFile
+    printf "\n########## $repo ##########\n\n" >> $outFile
+    printf "$(cd $repo; git status | head -2)" >> $outFile
+    printf "$(cd $repo; git log -1)\n" >> $outFile
+    cd -
   done
 }
 
