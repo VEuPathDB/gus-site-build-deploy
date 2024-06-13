@@ -87,17 +87,15 @@ dumpProjectVersions() {
   outFile=$2/html/built-project-commits.txt
   rm -f $outFile
   for repo in `ls $projectHome`; do
-    printf "\n########## $repo ##########\n\n" >> $outFile
-    printf "$(cd $repo; git status | head -2)" >> $outFile
-    printf "$(cd $repo; git log -1)\n" >> $outFile
-    cd -
+    printf "\n\n########## $repo ##########\n\n" >> $outFile
+    printf "$(cd $repo; git status | head -2; echo; git log -1)" >> $outFile
   done
 }
 
 # conditionally build and package
 echo "Building website with root project $rootProject using prop file $webappPropFile" \
   && bldw $rootProject $webappPropFile -skipBinFileLocationMacros \
-  && dumpProjectVersions $PROJECT_HOME $siteDir
+  && dumpProjectVersions $PROJECT_HOME $siteDir \
   && cd $siteDir \
   && echo "Packing built site into $buildId.tar" \
   && tar cf ../$buildId.tar * \
