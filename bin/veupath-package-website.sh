@@ -95,6 +95,7 @@ dumpProjectVersions() {
 # conditionally build and package
 echo "Building website with root project $rootProject using prop file $webappPropFile" \
   && bldw $rootProject $webappPropFile -skipBinFileLocationMacros \
+  && bash $PROJECT_HOME/install/installConifer.sh $GUS_HOME $PROJECT_HOME $rootProject \
   && dumpProjectVersions $PROJECT_HOME $siteDir \
   && cd $siteDir \
   && echo "Packing built site into $buildId.tar" \
